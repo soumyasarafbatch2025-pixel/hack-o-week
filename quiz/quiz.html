@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade 12 Biology Quiz</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    background: linear-gradient(-45deg,#141E30,#243B55,#0f2027,#2c5364);
+    background-size:400% 400%;
+    animation:bgAnimate 12s ease infinite;
+    overflow-x:hidden;
+}
+
+@keyframes bgAnimate{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+/* Floating DNA */
+.dna{
+    position:absolute;
+    width:80px;
+    opacity:0.12;
+    animation:floatDNA linear infinite;
+}
+
+.dna:nth-child(1){left:5%;animation-duration:25s;}
+.dna:nth-child(2){left:85%;animation-duration:30s;}
+.dna:nth-child(3){left:45%;animation-duration:35s;}
+
+@keyframes floatDNA{
+    0%{top:100%;transform:rotate(0deg);}
+    100%{top:-10%;transform:rotate(360deg);}
+}
+
+/* Glow particles */
+.particle{
+    position:absolute;
+    width:12px;
+    height:12px;
+    background:white;
+    border-radius:50%;
+    opacity:0.5;
+    box-shadow:0 0 20px white;
+    animation:floatParticle 20s linear infinite;
+}
+
+@keyframes floatParticle{
+    0%{top:100%;}
+    100%{top:-10%;}
+}
+
+.container{
+    max-width:900px;
+    margin:50px auto;
+    padding:30px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(18px);
+    border-radius:20px;
+    box-shadow:0 25px 50px rgba(0,0,0,0.6);
+    color:white;
+}
+
+h1{
+    text-align:center;
+    font-size:36px;
+    margin-bottom:10px;
+    text-shadow:0 0 15px #00ffff;
+}
+
+.subtitle{
+    text-align:center;
+    margin-bottom:25px;
+    font-weight:300;
+    letter-spacing:1px;
+}
+
+.question{
+    margin-bottom:20px;
+    padding:15px;
+    background:rgba(0,0,0,0.4);
+    border-radius:15px;
+    transition:0.3s;
+}
+
+.question:hover{
+    transform:scale(1.02);
+    box-shadow:0 0 20px #00ffff;
+}
+
+.question img{
+    width:110px;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.options label{
+    display:block;
+    margin:6px 0;
+    padding:8px;
+    background:rgba(255,255,255,0.2);
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.options label:hover{
+    background:rgba(0,255,255,0.4);
+}
+
+button{
+    width:100%;
+    padding:14px;
+    font-size:18px;
+    font-weight:bold;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(45deg,#00f2fe,#4facfe);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 25px #00f2fe;
+}
+
+#result{
+    margin-top:20px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Floating elements -->
+<img src="https://cdn-icons-png.flaticon.com/512/2913/2913465.png" class="dna">
+<img src="https://cdn-icons-png.flaticon.com/512/2784/2784445.png" class="dna">
+<img src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png" class="dna">
+
+<div class="particle" style="left:20%;animation-duration:18s;"></div>
+<div class="particle" style="left:60%;animation-duration:22s;"></div>
+<div class="particle" style="left:40%;animation-duration:25s;"></div>
+
+<div class="container">
+
+<h1>🧬 Grade 12 Biology Challenge</h1>
+<div class="subtitle">Concept-Based Advanced MCQ Assessment</div>
+
+<form id="quizForm">
+
+<!-- Q1 -->
+<div class="question">
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/87/DNA_double_helix_vertical.png">
+<strong>1. Okazaki fragments are synthesized during:</strong>
+<div class="options">
+<label><input type="radio" name="q1" value="1"> Lagging strand replication</label>
+<label><input type="radio" name="q1" value="0"> Leading strand replication</label>
+<label><input type="radio" name="q1" value="0"> Transcription</label>
+<label><input type="radio" name="q1" value="0"> Translation</label>
+</div>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Meiosis_Stages.svg">
+<strong>2. Crossing over occurs in which stage of meiosis?</strong>
+<div class="options">
+<label><input type="radio" name="q2" value="1"> Prophase I</label>
+<label><input type="radio" name="q2" value="0"> Metaphase II</label>
+<label><input type="radio" name="q2" value="0"> Anaphase I</label>
+<label><input type="radio" name="q2" value="0"> Telophase II</label>
+</div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Heart_anterior_exterior_view.png">
+<strong>3. The bicuspid (mitral) valve is located between:</strong>
+<div class="options">
+<label><input type="radio" name="q3" value="1"> Left atrium & left ventricle</label>
+<label><input type="radio" name="q3" value="0"> Right atrium & right ventricle</label>
+<label><input type="radio" name="q3" value="0"> Aorta & left ventricle</label>
+<label><input type="radio" name="q3" value="0"> Pulmonary artery & right ventricle</label>
+</div>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Nephron_diagram.png">
+<strong>4. Maximum reabsorption of glucose occurs in:</strong>
+<div class="options">
+<label><input type="radio" name="q4" value="1"> Proximal convoluted tubule</label>
+<label><input type="radio" name="q4" value="0"> Loop of Henle</label>
+<label><input type="radio" name="q4" value="0"> Distal convoluted tubule</label>
+<label><input type="radio" name="q4" value="0"> Collecting duct</label>
+</div>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Animal_cell_structure_en.svg">
+<strong>5. ATP synthesis occurs via which enzyme complex?</strong>
+<div class="options">
+<label><input type="radio" name="q5" value="1"> ATP Synthase (Complex V)</label>
+<label><input type="radio" name="q5" value="0"> Cytochrome C</label>
+<label><input type="radio" name="q5" value="0"> Complex I</label>
+<label><input type="radio" name="q5" value="0"> NADH Dehydrogenase</label>
+</div>
+</div>
+
+<button type="button" onclick="calculateScore()">Submit Quiz</button>
+
+</form>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+function calculateScore(){
+let score=0;
+for(let i=1;i<=5;i++){
+let options=document.getElementsByName("q"+i);
+for(let option of options){
+if(option.checked){
+score+=parseInt(option.value);
+}
+}
+}
+
+let message;
+if(score===5){
+message="🏆 Outstanding! Perfect 5/5!";
+}
+else if(score>=3){
+message="👏 Excellent Work! Score: "+score+"/5";
+}
+else{
+message="📘 Keep Practicing! Score: "+score+"/5";
+}
+
+document.getElementById("result").innerHTML=message;
+}
+</script>
+
+</body>
+</html>
