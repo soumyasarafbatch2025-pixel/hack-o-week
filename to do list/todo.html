@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive CSS Only To‑Do</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2)}
+.container{width:430px;padding:25px;border-radius:25px;background:rgba(255,255,255,0.15);backdrop-filter:blur(15px);box-shadow:0 20px 50px rgba(0,0,0,0.3);color:#fff}
+h1{text-align:center;margin-bottom:15px}
+.progress{width:100%;height:8px;background:#ffffff40;border-radius:20px;overflow:hidden;margin-bottom:20px}
+.bar{height:100%;width:0%;background:#fff;transition:0.4s;border-radius:20px}
+.task{background:#ffffff25;margin-bottom:12px;padding:12px 15px;border-radius:15px;display:flex;align-items:center;gap:10px;transition:0.4s}
+.task:hover{transform:scale(1.02)}
+input[type="checkbox"]{display:none}
+.task>label{flex:1;cursor:pointer;padding-left:34px;position:relative;display:block;line-height:1.4}
+.task>label::before{content:"";width:18px;height:18px;border-radius:6px;border:2px solid #fff;position:absolute;left:0;top:50%;transform:translateY(-50%)}
+.task input:checked+label{text-decoration:line-through;opacity:0.5}
+.task input:checked+label::before{background:#fff}
+.remove{display:none}
+.remove+span{background:#ff5e5e;padding:5px 10px;border-radius:8px;cursor:pointer;font-size:12px;margin-left:auto}
+.remove:checked~label{display:none}
+.remove:checked~span{display:none}
+.remove:checked{display:none}
+.filters{display:flex;justify-content:space-between;margin:10px 0}
+.filters label{background:#ffffff30;padding:5px 12px;border-radius:20px;cursor:pointer;font-size:13px;position:static}
+#completed:checked~.list .task:not(:has(input:checked)){display:none}
+#pending:checked~.list .task:has(input:checked){display:none}
+.container:has(#t1:checked) .bar,.container:has(#t2:checked) .bar,.container:has(#t3:checked) .bar,.container:has(#t4:checked) .bar{width:25%}
+.container:has(#t1:checked):has(#t2:checked) .bar,.container:has(#t1:checked):has(#t3:checked) .bar,.container:has(#t1:checked):has(#t4:checked) .bar,.container:has(#t2:checked):has(#t3:checked) .bar,.container:has(#t2:checked):has(#t4:checked) .bar,.container:has(#t3:checked):has(#t4:checked) .bar{width:50%}
+.container:has(#t1:checked):has(#t2:checked):has(#t3:checked) .bar,.container:has(#t1:checked):has(#t2:checked):has(#t4:checked) .bar,.container:has(#t1:checked):has(#t3:checked):has(#t4:checked) .bar,.container:has(#t2:checked):has(#t3:checked):has(#t4:checked) .bar{width:75%}
+.container:has(#t1:checked):has(#t2:checked):has(#t3:checked):has(#t4:checked) .bar{width:100%}
+
+</style>
+</head>
+<body>
+<div class="container">
+<h1>To‑Do List</h1>
+<div class="progress"><div class="bar"></div></div>
+<input type="radio" name="filter" id="all" checked hidden>
+<input type="radio" name="filter" id="completed" hidden>
+<input type="radio" name="filter" id="pending" hidden>
+<div class="filters">
+<label for="all">All</label>
+<label for="completed">Completed</label>
+<label for="pending">Pending</label>
+</div>
+<div class="list">
+<div class="task">
+<input type="checkbox" id="t1">
+<label for="t1" >Complete Assignment</label>
+<input type="checkbox" class="remove" id="r1"><span>Delete</span>
+</div>
+<div class="task">
+<input type="checkbox" id="t2">
+<label for="t2" >Study for Exam</label>
+<input type="checkbox" class="remove" id="r2"><span>Delete</span>
+</div>
+<div class="task">
+<input type="checkbox" id="t3">
+<label for="t3" >Buy Groceries</label>
+<input type="checkbox" class="remove" id="r3"><span>Delete</span>
+</div>
+<div class="task">
+<input type="checkbox" id="t4">
+<label for="t4" >Workout</label>
+<input type="checkbox" class="remove" id="r4"><span>Delete</span>
+</div>
+</div>
+</div>
+</body>
+</html>
