@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Browser History</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 700px;
+            margin: 20px auto;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .section {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        button:hover:not(:disabled) {
+            background: #555;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .back-btn {
+            background: #2196F3;
+        }
+
+        .back-btn:hover:not(:disabled) {
+            background: #0b7dda;
+        }
+
+        .forward-btn {
+            background: #FF9800;
+        }
+
+        .forward-btn:hover:not(:disabled) {
+            background: #e68900;
+        }
+
+        .current-page {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 3px;
+            border-left: 4px solid #4CAF50;
+            margin: 10px 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .stack-item {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 8px 0;
+            border-left: 4px solid #333;
+        }
+
+        .stack-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+
+        .url-input {
+            flex: 1;
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔙 Browser History</h1>
+
+    <div class="section">
+        <h3>Visit a Page</h3>
+        <div class="controls">
+            <input id="url" type="text" class="url-input" placeholder="Enter URL (e.g., google.com)">
+            <button onclick="visit()">Visit</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Current Page</h3>
+        <div id="current" class="current-page">Home</div>
+    </div>
+
+    <div class="section">
+        <h3>Navigation</h3>
+        <div style="display: flex; gap: 10px;">
+            <button class="back-btn" id="backBtn" onclick="goBack()">← Back</button>
+            <button class="forward-btn" id="forwardBtn" onclick="goForward()">Forward →</button>
+            <button onclick="clearHistory()" style="background: #f44336;">Clear History</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Back Stack</h3>
+        <div id="backStack"></div>
+    </div>
+
+    <div class="section">
+        <h3>Forward Stack</h3>
+        <div id="forwardStack"></div>
+    </div>
+
+    <script>
+        // Stack implementation
+        class Stack {
+            constructor() {
+                this.items = [];
+            }
+
+            push(item) {
+                this.items.push(item);
+            }
+
+            pop() {
+                return this.items.pop();
+            }
+
+            peek() {
+                return this.items[this.items.length - 1];
+            }
+
+            isEmpty() {
+                return this.items.length === 0;
+            }
+
+            size() {
+                return this.items.length;
+            }
+
+            getAll() {
+                return [...this.items];
+            }
+        }
+
+        const backStack = new Stack();
+        const forwardStack = new Stack();
+        let currentPage = "Home";
+
+        function visit() {
+            const url = document.getElementById('url').value.trim();
+            
+            if (!url) {
+                alert('Enter a URL');
+                return;
+            }
+
+            // Push current page to back stack
+            if (currentPage !== "Home") {
+                backStack.push(currentPage);
+            }
+
+            // Clear forward stack when visiting new page
+            forwardStack.items = [];
+
+            currentPage = url;
+            document.getElementById('url').value = '';
+            render();
+        }
+
+        function goBack() {
+            if (backStack.isEmpty()) return;
+
+            // Push current to forward stack
+            forwardStack.push(currentPage);
+
+            // Pop from back stack
+            currentPage = backStack.pop();
+            render();
+        }
+
+        function goForward() {
+            if (forwardStack.isEmpty()) return;
+
+            // Push current to back stack
+            backStack.push(currentPage);
+
+            // Pop from forward stack
+            currentPage = forwardStack.pop();
+            render();
+        }
+
+        function clearHistory() {
+            backStack.items = [];
+            forwardStack.items = [];
+            currentPage = "Home";
+            render();
+        }
+
+        function render() {
+            // Update current page
+            document.getElementById('current').textContent = currentPage;
+
+            // Update back button state
+            document.getElementById('backBtn').disabled = backStack.isEmpty();
+
+            // Update forward button state
+            document.getElementById('forwardBtn').disabled = forwardStack.isEmpty();
+
+            // Render back stack
+            const backItems = backStack.getAll();
+            const backHtml = backItems.length ? backItems.reverse().map(item => `
+                <div class="stack-item">${item}</div>
+            `).join('') : '<div class="empty">Empty</div>';
+            document.getElementById('backStack').innerHTML = backHtml;
+
+            // Render forward stack
+            const forwardItems = forwardStack.getAll();
+            const forwardHtml = forwardItems.length ? forwardItems.map(item => `
+                <div class="stack-item">${item}</div>
+            `).join('') : '<div class="empty">Empty</div>';
+            document.getElementById('forwardStack').innerHTML = forwardHtml;
+        }
+
+        render();
+    </script>
+</body>
+</html>
