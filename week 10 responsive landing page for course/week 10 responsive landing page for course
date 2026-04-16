@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Development Bootcamp | Symbiosis Institute of Technology Nagpur</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+line-height:1.6;
+background:#f4f4f4;
+}
+
+/* Header */
+
+header{
+background:#8B0000;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+}
+
+header h2{
+font-size:20px;
+}
+
+nav a{
+color:white;
+margin-left:15px;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* Hero Section */
+
+.hero{
+background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url("https://images.unsplash.com/photo-1498050108023-c5249f4df085");
+background-size:cover;
+background-position:center;
+color:white;
+text-align:center;
+padding:100px 20px;
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.hero p{
+font-size:18px;
+margin-bottom:20px;
+}
+
+.hero a{
+background:#ff6600;
+padding:12px 25px;
+color:white;
+text-decoration:none;
+border-radius:5px;
+}
+
+/* Sections */
+
+section{
+padding:60px 20px;
+text-align:center;
+}
+
+.features{
+background:white;
+}
+
+.feature-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+max-width:1000px;
+margin:auto;
+}
+
+.feature{
+background:#f9f9f9;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Enrollment Form */
+
+.enroll{
+background:#eef2f7;
+}
+
+.form-container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+.form-group{
+margin-bottom:15px;
+text-align:left;
+}
+
+.form-group label{
+display:block;
+margin-bottom:5px;
+}
+
+.form-group input,
+.form-group select{
+width:100%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#8B0000;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#6b0000;
+}
+
+/* Footer */
+
+footer{
+background:#222;
+color:#ccc;
+text-align:center;
+padding:20px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:30px;
+}
+
+header{
+flex-direction:column;
+gap:10px;
+text-align:center;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Symbiosis Institute of Technology, Nagpur</h2>
+
+<nav>
+<a href="#">Home</a>
+<a href="#features">Bootcamp</a>
+<a href="#enroll">Enroll</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>Web Development Bootcamp</h1>
+<p>Organized by Symbiosis Institute of Technology, Nagpur</p>
+<p>Learn HTML, CSS, JavaScript and build real-world projects.</p>
+
+<a href="#enroll">Enroll Now</a>
+</section>
+
+<section class="features" id="features">
+<h2>Why Join This Bootcamp?</h2>
+
+<div class="feature-container">
+
+<div class="feature">
+<h3>Beginner Friendly</h3>
+<p>Start coding from basics with expert mentors.</p>
+</div>
+
+<div class="feature">
+<h3>Hands-on Projects</h3>
+<p>Build responsive websites and real portfolio projects.</p>
+</div>
+
+<div class="feature">
+<h3>Career Skills</h3>
+<p>Prepare for internships and tech careers.</p>
+</div>
+
+</div>
+</section>
+
+<section class="enroll" id="enroll">
+
+<h2>Bootcamp Enrollment Form</h2>
+
+<div class="form-container">
+
+<form>
+
+<div class="form-group">
+<label>Full Name</label>
+<input type="text" placeholder="Enter your full name" required>
+</div>
+
+<div class="form-group">
+<label>Email Address</label>
+<input type="email" placeholder="Enter your email" required>
+</div>
+
+<div class="form-group">
+<label>Phone Number</label>
+<input type="tel" placeholder="Enter phone number" required>
+</div>
+
+<div class="form-group">
+<label>Select Program</label>
+<select>
+<option>Web Development Bootcamp</option>
+<option>Frontend Development</option>
+<option>Full Stack Development</option>
+</select>
+</div>
+
+<button type="submit">Submit Enrollment</button>
+
+</form>
+
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 Symbiosis Institute of Technology, Nagpur</p>
+<p>Web Development Bootcamp Program</p>
+</footer>
+
+</body>
+</html>
