@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Catalogue</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .section {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        .remove-btn {
+            background: #f44336;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .remove-btn:hover {
+            background: #da190b;
+        }
+
+        .book {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book-title {
+            font-weight: bold;
+        }
+
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .info {
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .empty {
+            text-align: center;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 Book Catalogue</h1>
+
+    <div class="info">Books: <span id="count">2</span> / 10</div>
+
+    <div class="section">
+        <h3>Add a Book</h3>
+        <input id="title" type="text" placeholder="Book title">
+        <input id="author" type="text" placeholder="Author">
+        <button onclick="addBook()">Add</button>
+    </div>
+
+    <div class="section">
+        <h3>Search</h3>
+        <input id="search" type="text" placeholder="Search by title...">
+        <button onclick="search()">Search</button>
+        <button onclick="showAll()">Show All</button>
+    </div>
+
+    <div class="section">
+        <h3>Catalogue</h3>
+        <div id="books">
+            <div class="book">
+                <div>
+                    <div class="book-title">To Kill a Mockingbird</div>
+                    <div class="book-author">by Harper Lee</div>
+                </div>
+                <button class="remove-btn" onclick="removeBook(0)">X</button>
+            </div>
+
+            <div class="book">
+                <div>
+                    <div class="book-title">1984</div>
+                    <div class="book-author">by George Orwell</div>
+                </div>
+                <button class="remove-btn" onclick="removeBook(1)">X</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let books = [
+            {title: "To Kill a Mockingbird", author: "Harper Lee"},
+            {title: "1984", author: "George Orwell"}
+        ];
+        const MAX = 10;
+        let filteredBooks = [...books];
+
+        function addBook() {
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+
+            if (!title || !author) return alert('Enter title and author');
+            if (books.length >= MAX) return alert('Catalogue full');
+
+            books.push({title, author});
+            filteredBooks = [...books];
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+            document.getElementById('search').value = '';
+            render();
+        }
+
+        function removeBook(i) {
+            books.splice(i, 1);
+            filteredBooks = filteredBooks.filter((_, idx) => idx !== i);
+            render();
+        }
+
+        function search() {
+            const q = document.getElementById('search').value.toLowerCase().trim();
+            if (!q) return alert('Enter search term');
+            
+            filteredBooks = books.filter(b => b.title.toLowerCase().includes(q));
+            render();
+        }
+
+        function showAll() {
+            document.getElementById('search').value = '';
+            filteredBooks = [...books];
+            render();
+        }
+
+        function render() {
+            document.getElementById('count').textContent = books.length;
+            const html = filteredBooks.length ? filteredBooks.map((b, i) => {
+                const actualIndex = books.indexOf(b);
+                return `
+                <div class="book">
+                    <div>
+                        <div class="book-title">${b.title}</div>
+                        <div class="book-author">by ${b.author}</div>
+                    </div>
+                    <button class="remove-btn" onclick="removeBook(${actualIndex})">X</button>
+                </div>
+            `}).join('') : '<div class="empty">No books found</div>';
+            
+            document.getElementById('books').innerHTML = html;
+        }
+
+        render();
+    </script>
+</body>
+</html>
