@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Printer Queue</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        input, button, select {
+            padding: 10px 12px;
+            margin: 5px;
+            font-size: 0.95rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .print-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+
+        .print-btn:hover:not(:disabled) {
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .process-btn {
+            background: linear-gradient(135deg, #2196F3 0%, #0b7dda 100%);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .process-btn:hover:not(:disabled) {
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        .queue-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .stat {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: #667eea;
+            margin-top: 8px;
+        }
+
+        .job-item {
+            background: linear-gradient(135deg, #f5f7fa 0%, #f0f4f8 100%);
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .job-item:hover {
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.2);
+        }
+
+        .job-info {
+            flex: 1;
+        }
+
+        .job-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .job-pages {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .job-position {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #bbb;
+            padding: 30px 20px;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .name-input {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .processing {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe5a3 100%);
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #FF9800;
+            margin: 10px 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .processing::before {
+            content: '⏳';
+            font-size: 1.5rem;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .completed {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+            margin: 10px 0;
+        }
+
+        .completed-item {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.2);
+            color: #155724;
+            padding: 6px 12px;
+            margin: 5px 5px 5px 0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖨️ Printer Queue</h1>
+            <p class="subtitle">FIFO Job Management System</p>
+        </header>
+
+    <div class="section">
+        <h3>Add Print Job</h3>
+        <div class="controls">
+            <input id="jobName" type="text" class="name-input" placeholder="Job name">
+            <input id="pages" type="number" placeholder="Pages" min="1" value="1">
+            <button class="print-btn" onclick="enqueuJob()">Enqueue</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Queue Status</h3>
+        <div class="queue-stats">
+            <div class="stat">
+                <div class="stat-label">Queue Size</div>
+                <div class="stat-value" id="queueSize">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Jobs Completed</div>
+                <div class="stat-value" id="completed">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Total Pages Printed</div>
+                <div class="stat-value" id="totalPages">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Processing</h3>
+        <div id="processing"></div>
+        <button class="process-btn" id="processBtn" onclick="processJob()" style="width: 100%; margin-top: 10px;">Process Next Job</button>
+    </div>
+
+    <div class="section">
+        <h3>Print Queue (FIFO)</h3>
+        <div id="queue"></div>
+    </div>
+
+    <div class="section">
+        <h3>Completed Jobs</h3>
+        <div id="completedJobs"></div>
+    </div>
+
+    </div>
+
+    <script>
+        // Queue implementation
+        class Queue {
+            constructor() {
+                this.items = [];
+                this.jobCounter = 0;
+            }
+
+            enqueue(jobName, pages) {
+                this.items.push({
+                    id: ++this.jobCounter,
+                    name: jobName,
+                    pages: pages
+                });
+            }
+
+            dequeue() {
+                return this.items.shift();
+            }
+
+            front() {
+                return this.items[0] || null;
+            }
+
+            isEmpty() {
+                return this.items.length === 0;
+            }
+
+            size() {
+                return this.items.length;
+            }
+
+            getAll() {
+                return [...this.items];
+            }
+        }
+
+        const queue = new Queue();
+        let currentJob = null;
+        let completedJobs = [];
+        let totalPagesPrinted = 0;
+
+        function enqueuJob() {
+            const jobName = document.getElementById('jobName').value.trim();
+            const pages = parseInt(document.getElementById('pages').value);
+
+            if (!jobName) {
+                alert('Enter job name');
+                return;
+            }
+
+            if (isNaN(pages) || pages < 1) {
+                alert('Enter valid page count');
+                return;
+            }
+
+            queue.enqueue(jobName, pages);
+            document.getElementById('jobName').value = '';
+            document.getElementById('pages').value = '1';
+            render();
+        }
+
+        function processJob() {
+            if (queue.isEmpty()) {
+                alert('No jobs in queue');
+                return;
+            }
+
+            currentJob = queue.dequeue();
+            completedJobs.push(currentJob);
+            totalPagesPrinted += currentJob.pages;
+            currentJob = null;
+            render();
+        }
+
+        function render() {
+            // Update stats
+            document.getElementById('queueSize').textContent = queue.size();
+            document.getElementById('completed').textContent = completedJobs.length;
+            document.getElementById('totalPages').textContent = totalPagesPrinted;
+
+            // Update process button state
+            document.getElementById('processBtn').disabled = queue.isEmpty();
+
+            // Render processing
+            if (currentJob) {
+                document.getElementById('processing').innerHTML = `
+                    <div class="processing">
+                        ⏳ Processing: ${currentJob.name} (${currentJob.pages} pages)
+                    </div>
+                `;
+            } else {
+                document.getElementById('processing').innerHTML = '<div class="empty">No job processing</div>';
+            }
+
+            // Render queue
+            const queueItems = queue.getAll();
+            const queueHtml = queueItems.length ? queueItems.map((job, index) => `
+                <div class="job-item">
+                    <div class="job-info">
+                        <div class="job-name">Job #${job.id}: ${job.name}</div>
+                        <div class="job-pages">${job.pages} pages</div>
+                    </div>
+                    <div class="job-position">
+                        Position: ${index + 1}
+                    </div>
+                </div>
+            `).join('') : '<div class="empty">Queue empty</div>';
+            document.getElementById('queue').innerHTML = queueHtml;
+
+            // Render completed jobs
+            const completedHtml = completedJobs.length ? `
+                <div class="completed">
+                    ✓ ${completedJobs.map(job => `<span class="completed-item">Job #${job.id}: ${job.name} (${job.pages}p)</span>`).join('')}
+                </div>
+            ` : '<div class="empty">No jobs completed yet</div>';
+            document.getElementById('completedJobs').innerHTML = completedHtml;
+        }
+
+        render();
+    </script>
+</body>
+</html>
