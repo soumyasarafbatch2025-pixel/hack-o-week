@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENTHUSIA | SIT Nagpur</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background: linear-gradient(120deg,#fbc2eb,#a6c1ee,#fdfbfb);
+    background-size:300% 300%;
+    animation:bg 12s ease infinite;
+    color:#333;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+/* ---------- HEADER ---------- */
+header{
+    padding:80px 10%;
+    text-align:center;
+}
+
+header h1{
+    font-size:52px;
+    color:#5a4fcf;
+    letter-spacing:3px;
+}
+
+header p{
+    font-size:20px;
+    margin-top:10px;
+    opacity:0.8;
+}
+
+.register-btn{
+    margin-top:40px;
+    padding:18px 40px;
+    font-size:22px;
+    border:none;
+    border-radius:50px;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    cursor:pointer;
+}
+
+/* ---------- EVENTS ---------- */
+.events{
+    padding:40px 10%;
+}
+
+.events h2{
+    text-align:center;
+    font-size:36px;
+    margin-bottom:40px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.9);
+    border-radius:20px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 15px 30px rgba(0,0,0,0.15);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+}
+
+.card span{
+    font-size:40px;
+}
+
+.card h3{
+    margin:15px 0;
+}
+
+/* ---------- REGISTRATION POPUP PAGE ---------- */
+.popup-page{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+
+.form-box{
+    width:90%;
+    max-width:1000px;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:50px;
+    position:relative;
+}
+
+.close-btn{
+    position:absolute;
+    top:20px;
+    right:25px;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.form-box h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+form{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.full{
+    grid-column:span 2;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid #ccc;
+}
+
+.checkbox{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.submit-btn{
+    grid-column:span 2;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    font-size:20px;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    cursor:pointer;
+}
+
+/* ---------- SUCCESS POPUP ---------- */
+.success{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:2000;
+}
+
+.success-box{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px){
+    .cards{grid-template-columns:1fr 1fr;}
+}
+
+@media(max-width:600px){
+    header h1{font-size:36px;}
+    .cards{grid-template-columns:1fr;}
+    form{grid-template-columns:1fr;}
+    .full,.submit-btn{grid-column:span 1;}
+    .checkbox{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>ENTHUSIA</h1>
+    <p>Tech • Culture • Sports<br>Organised by SIT Nagpur</p>
+    <button class="register-btn" onclick="openForm()">Register Now </button>
+</header>
+
+<section class="events">
+    <h2>Fest Highlights</h2>
+    <div class="cards">
+        <div class="card"><span>💻</span><h3>Hackathon</h3></div>
+        <div class="card"><span>🎭</span><h3>Cultural Events</h3></div>
+        <div class="card"><span>⚽</span><h3>Sports</h3></div>
+        <div class="card"><span>🏪</span><h3>Stalls</h3></div>
+        <div class="card"><span>🤝</span><h3>Volunteers</h3></div>
+        <div class="card"><span>🎉</span><h3>Fun Zone</h3></div>
+    </div>
+</section>
+
+<!-- REGISTRATION PAGE POPUP -->
+<div class="popup-page" id="formPopup">
+    <div class="form-box">
+        <span class="close-btn" onclick="closeForm()">✖</span>
+        <h2>ENTHUSIA Registration</h2>
+
+        <form onsubmit="submitForm(event)">
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Email" required>
+
+            <input type="tel" placeholder="Phone Number" required>
+            <input type="text" placeholder="College Name" required>
+
+            <select class="full" required>
+                <option value="">Select Category</option>
+                <option>Stall Registration</option>
+                <option>Hackathon</option>
+                <option>Dance - Solo</option>
+                <option>Dance - Duet</option>
+                <option>Singing</option>
+                <option>Volunteer</option>
+            </select>
+
+            <div class="full checkbox">
+                <label><input type="checkbox"> Dodgeball</label>
+                <label><input type="checkbox"> Football</label>
+                <label><input type="checkbox"> Table Tennis</label>
+                <label><input type="checkbox"> Volleyball</label>
+                <label><input type="checkbox"> Basketball</label>
+            </div>
+
+            <button class="submit-btn" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- SUCCESS MESSAGE -->
+<div class="success" id="success">
+    <div class="success-box">
+        <h2>Registration Successful 🎉</h2>
+        <p>See you at ENTHUSIA!</p>
+        <button onclick="closeSuccess()">Close</button>
+    </div>
+</div>
+
+<script>
+function openForm(){
+    document.getElementById("formPopup").style.display="flex";
+}
+
+function closeForm(){
+    document.getElementById("formPopup").style.display="none";
+}
+
+function submitForm(e){
+    e.preventDefault();
+    document.getElementById("formPopup").style.display="none";
+    document.getElementById("success").style.display="flex";
+}
+
+function closeSuccess(){
+    document.getElementById("success").style.display="none";
+}
+</script>
+
+</body>
+</html>
