@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Book</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: #fff;
+        text-align: center;
+    }
+
+    .container {
+        background: #ffffff;
+        color: #333;
+        width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    input {
+        width: 80%;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        border: none;
+        border-radius: 8px;
+        background: #667eea;
+        color: white;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #5a67d8;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        display: none;
+    }
+
+    li {
+        background: #f3f4f6;
+        margin: 5px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    #result {
+        margin-top: 10px;
+        font-weight: bold;
+        color: green;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📞 Contact Book</h1>
+
+    <input type="text" id="name" placeholder="Enter Name">
+    <input type="text" id="phone" placeholder="Enter Phone">
+    <br>
+    <button onclick="addContact()">Add Contact</button>
+    <button onclick="toggleContacts()">Show/Hide Contacts</button>
+    <br>
+
+    <input type="text" id="searchName" placeholder="Search Name">
+    <button onclick="searchContact()">Search</button>
+
+    <p id="result"></p>
+
+    <ul id="contactList"></ul>
+</div>
+
+<script>
+    let contacts = [];
+
+    function addContact() {
+        let name = document.getElementById("name").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+
+        if (name === "" || phone === "") {
+            document.getElementById("result").textContent = "Enter both fields";
+            return;
+        }
+
+        contacts.push({ name: name.toLowerCase(), phone });
+
+        document.getElementById("name").value = "";
+        document.getElementById("phone").value = "";
+
+        sortContacts();
+    }
+
+    function displayContacts() {
+        let list = document.getElementById("contactList");
+        list.innerHTML = "";
+
+        contacts.forEach(c => {
+            let li = document.createElement("li");
+            li.textContent = `${c.name} - ${c.phone}`;
+            list.appendChild(li);
+        });
+    }
+
+    function sortContacts() {
+        contacts.sort((a, b) => a.name.localeCompare(b.name));
+        displayContacts();
+    }
+
+    function binarySearch(name) {
+        let left = 0, right = contacts.length - 1;
+        name = name.toLowerCase();
+
+        while (left <= right) {
+            let mid = Math.floor((left + right) / 2);
+            let midName = contacts[mid].name;
+
+            if (midName === name) return contacts[mid];
+
+            if (midName < name) left = mid + 1;
+            else right = mid - 1;
+        }
+
+        return null;
+    }
+
+    function searchContact() {
+        let name = document.getElementById("searchName").value.trim();
+
+        if (name === "") {
+            document.getElementById("result").textContent = "Enter name to search";
+            return;
+        }
+
+        sortContacts();
+
+        let result = binarySearch(name);
+
+        if (result) {
+            document.getElementById("result").textContent =
+                `Found: ${result.name} - ${result.phone}`;
+        } else {
+            document.getElementById("result").textContent =
+                "Contact not found";
+        }
+    }
+
+    function toggleContacts() {
+        let list = document.getElementById("contactList");
+        list.style.display = list.style.display === "none" ? "block" : "none";
+    }
+</script>
+
+</body>
+</html>
